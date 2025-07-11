@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <h1>Registrate</h1>
-        <form method="POST">
+        <form id="registroForm">
             <input type="text" name="nombre" placeholder="Nombre" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo letras"><br>
             <input type="text" name="segundo_nombre" placeholder="Segundo nombre" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo letras"><br>
             <input type="text" name="apellido" placeholder="Apellido" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo letras"><br>
@@ -19,5 +19,39 @@
             <button type="submit">Registrarse</button>
         </form>
     </div>
+    <script>
+    document.getElementById('registroForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const form = e.target;
+        const datos = {
+        nombre: form.nombre.value.trim(),
+        segundo_nombre: form.segundo_nombre.value.trim(),
+        apellido: form.apellido.value.trim(),
+        dni: form.dni.value.trim()
+        };
+
+        try {
+        const res = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.redirect) {
+            window.location.href = data.redirect;
+        } else {
+            alert(data.message || 'Error al registrar');
+        }
+        } catch (error) {
+        console.error(error);
+        alert('Error inesperado');
+        }
+    });
+    </script>
 </body>
 </html>

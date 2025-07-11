@@ -1,22 +1,13 @@
 {
-  "name": "vivisport-1-dia",
+  "name": "vivisport-vercel",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vercel dev"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "body-parser": "^2.2.0",
-    "dotenv": "^17.2.0",
     "ejs": "^3.1.10",
-    "express": "^5.1.0",
-    "express-session": "^1.18.1",
-    "mongoose": "^8.16.3"
+    "express": "^4.21.2",
+    "mongodb": "^6.17.0"
   }
-
 }

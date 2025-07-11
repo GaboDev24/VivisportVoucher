@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css">
-    <title>Login Admin - Vivisport</title>
-    <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+  <meta charset="UTF-8">
+  <title>Login Admin - Vivisport</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="/img/icon.ico" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Login Administrador</h1>
-        <form method="POST">
-            <input type="text" name="usuario" placeholder="Usuario"><br>
-            <input type="password" name="password" placeholder="Contraseña"><br>
-            <button type="submit">Entrar</button>
-        </form>
-    </div>
+  <div class="container">
+    <h1>Login Administrador</h1>
+    <form id="loginForm">
+      <input type="text" name="usuario" placeholder="Usuario" required><br>
+      <input type="password" name="password" placeholder="Contraseña" required><br>
+      <button type="submit">Entrar</button>
+    </form>
+    <p id="mensaje" style="color: red; margin-top: 10px;"></p>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const datos = {
+        usuario: form.usuario.value.trim(),
+        password: form.password.value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(datos)
+        });
+
+        const json = await res.json();
+
+        if (res.ok && json.admin) {
+          localStorage.setItem('admin', 'true');
+          window.location.href = '/dashboard'; // Asegúrate de que esta ruta esté definida en tu app
+        } else {
+          document.getElementById('mensaje').innerText = json.message || 'Error de autenticación';
+        }
+      } catch (error) {
+        console.error(error);
+        document.getElementById('mensaje').innerText = 'Error de conexión';
+      }
+    });
+  </script>
 </body>
 </html>
