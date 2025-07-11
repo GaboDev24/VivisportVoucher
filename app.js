@@ -60,14 +60,14 @@ app.post('/register', async (req, res) => {
     const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
 
     const letrasRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
-    const dniRegex = /^\d{2}\.\d{3}\.\d{3}$/;
+    const dniRegex = /^\d{8}$/;
 
     if (!letrasRegex.test(nombre) || !letrasRegex.test(segundo_nombre) || !letrasRegex.test(apellido)) {
         return res.send("Error: Nombre, segundo nombre y apellido solo pueden contener letras.");
     }
 
     if (!dniRegex.test(dni)) {
-        return res.send("Error: El DNI debe tener el formato xx.xxx.xxx");
+        return res.send("Error: Ingresa un DNI válido o sin puntos.");
     }
 
     const existente = await Usuario.findOne({ dni });

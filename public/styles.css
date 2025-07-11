@@ -58,14 +58,7 @@ button:hover {
     background-color: #121212;
 }
 
-.logout_cont {
-    background-color: #06cfcf;
-    margin: 10px;
-    border: 2px solid #06cfcf;
-    padding: 5px;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-}
+
 
 .logout_btn {
     color: #121212;
@@ -78,10 +71,6 @@ button:hover {
     color: white;
 }
 
-.logout_cont:hover {
-    background-color: #121212;
-    color: white;
-}
 
 
 

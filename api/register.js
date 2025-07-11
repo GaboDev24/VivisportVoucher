@@ -9,14 +9,14 @@ export default async function handler(req, res) {
   const { nombre, segundo_nombre, apellido, dni } = req.body;
 
   const letrasRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
-  const dniRegex = /^\d{2}\.\d{3}\.\d{3}$/;
+  const dniRegex = /^\d{8}$/;
 
   if (!letrasRegex.test(nombre) || !letrasRegex.test(segundo_nombre) || !letrasRegex.test(apellido)) {
     return res.status(400).json({ message: "Nombre, segundo nombre y apellido solo pueden contener letras" });
   }
 
   if (!dniRegex.test(dni)) {
-    return res.status(400).json({ message: "DNI debe tener formato xx.xxx.xxx" });
+    return res.status(400).json({ message: "Error: Ingresa un DNI válido o sin puntos." });
   }
 
   try {
@@ -39,21 +39,13 @@ export default async function handler(req, res) {
     }
     }
 
-    const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
-
-    const cantidad_ip = await db.collection('usuarios').countDocuments({ ip });
-    if (cantidad_ip >= 10) {
-      return res.status(400).json({ message: 'Límite de 10 registros por IP alcanzado' });
-    }
-
     const fecha_vencimiento = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     const usuario = {
       nombre,
       segundo_nombre,
       apellido,
       dni,
-      fecha_vencimiento: fecha_vencimiento.toLocaleDateString('es-AR'),
-      ip,
+      fecha_vencimiento: fecha_vencimiento.toLocaleDateString('es-AR')
     };
 
     await db.collection('usuarios').insertOne(usuario);

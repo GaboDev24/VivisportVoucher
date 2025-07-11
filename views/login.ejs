@@ -38,7 +38,8 @@
 
         if (res.ok && json.admin) {
           localStorage.setItem('admin', 'true');
-          window.location.href = '/dashboard'; // Asegúrate de que esta ruta esté definida en tu app
+          localStorage.setItem('adminToken', '24042002');
+          window.location.href = '/dashboard'; 
         } else {
           document.getElementById('mensaje').innerText = json.message || 'Error de autenticación';
         }

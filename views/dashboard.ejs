@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <h1>Usuarios Registrados</h1>
-        <ul>
+        <ul id="usuariosList">
             <% usuarios.forEach(function(user) { %>
                 <li><%= user.nombre %> <%= user.apellido %> - DNI: <%= user.dni %></li>
             <% }) %>
