@@ -1,3 +1,2 @@
-requirements.txt
-venv
 .env
+node_modules
